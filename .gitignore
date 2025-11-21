@@ -2,3 +2,4 @@
 *.iso
 wget-log
 /*.txt
+/vms/*

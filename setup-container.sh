@@ -4,9 +4,10 @@ LOGFILE="/home/$USERNAME/install.log"
 echo "Ativando acesso SSH" > $LOGFILE
 service ssh start
 
-echo "Criando usuário $USERNAME para SSH"
+echo "Criando usuário $USERNAME para SSH"  >> $LOGFILE
 useradd -m -s /bin/bash $USERNAME && echo "$USERNAME:1234" | chpasswd
 mv /exec.sh /home/$USERNAME/
+
 echo "Instalando dependencias" >> $LOGFILE
 cat ./packages | xargs apt-get install -y
 
