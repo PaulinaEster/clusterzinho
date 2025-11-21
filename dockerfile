@@ -13,6 +13,7 @@ RUN apt install -y htop
 # instala os pacotes
 COPY ./packages .
 COPY ./setup-container.sh  .
+COPY ./exec.sh  .
 
 RUN chmod +x ./setup-container.sh
 
