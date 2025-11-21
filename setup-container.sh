@@ -1,5 +1,5 @@
 #!/bin/bash
-echo "Instalando dependencias!" >> /home/gmap/install.log
+echo "Instalando dependencias!" > /home/gmap/install.log
 cat ./packages | xargs apt-get install -y
 
 echo "Dependencias instaladas" >> /home/gmap/install.log
