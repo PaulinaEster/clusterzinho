@@ -7,9 +7,9 @@ docker build -t server-ssh .
 
 criar os nodos
 
-sudo docker run -d -v /home/paulina/Masters/petrobras/clusterzinho/vms/node-0:/home/gmap --name node-0 --network clusterzinho server-ssh:0.0.3
-sudo docker run -d -v /home/paulina/Masters/petrobras/clusterzinho/vms/node-1:/home/gmap --name node-1 --network clusterzinho server-ssh:0.0.1
-sudo docker run -d -v /home/paulina/Masters/petrobras/clusterzinho/vms/node-2:/home/gmap --name node-2 --network clusterzinho server-ssh:0.0.1
+sudo docker run -d -v /home/paulina/Masters/petrobras/clusterzinho/vms/node-0:/home/gmap --name node-0 --network clusterzinho server-ssh:0.8
+sudo docker run -d -v /home/paulina/Masters/petrobras/clusterzinho/vms/node-1:/home/gmap --name node-1 --network clusterzinho server-ssh:0.8
+sudo docker run -d -v /home/paulina/Masters/petrobras/clusterzinho/vms/node-2:/home/gmap --name node-2 --network clusterzinho server-ssh:0.8
 
 acessar container:
 

@@ -13,10 +13,10 @@ RUN apt install -y htop
 RUN useradd -m -s /bin/bash gmap && echo "gmap:1234" | chpasswd
 
 # instala os pacotes
-COPY ./packages /home/gmap/packages
-COPY ./setup-container.sh  /home/gmap/setup-container.sh 
+COPY ./packages .
+COPY ./setup-container.sh  .
 
-RUN chmod +x /home/gmap/setup-container.sh && /home/gmap/setup-container.sh
+RUN chmod +x ./setup-container.sh
 
 # Permite login por senha (simples para desenvolvimento)
 RUN sed -i 's/#PasswordAuthentication yes/PasswordAuthentication yes/' /etc/ssh/sshd_config \
@@ -31,4 +31,4 @@ RUN echo "UsePAM yes" >> /etc/ssh/sshd_config
 EXPOSE 22
 
 # Inicia o SSH e mantém o container ativo
-CMD service ssh start && tail -f /dev/null
+CMD ["./setup-container.sh"]
