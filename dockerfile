@@ -9,8 +9,6 @@ mkdir -p /var/run/sshd
 
 RUN apt install -y htop 
 
-# Cria usuário para SSH
-RUN useradd -m -s /bin/bash gmap && echo "gmap:1234" | chpasswd
 
 # instala os pacotes
 COPY ./packages .
