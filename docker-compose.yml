@@ -1,0 +1,45 @@
+services:
+  mpiuser:
+    image: server-ssh:0.3
+    container_name: mpiuser
+    hostname: mpiuser
+    networks:
+      - clusterzinho
+    volumes:
+      - /home/paulina/Masters/petrobras/clusterzinho/vms/mpiuser:/home/worker
+    restart: unless-stopped
+    depends_on:
+      - node-0
+      - node-1
+      - node-2
+  node-0:
+    image: server-ssh:0.3
+    container_name: node-0
+    hostname: node-0
+    networks:
+      - clusterzinho
+    volumes:
+      - /home/paulina/Masters/petrobras/clusterzinho/vms/node-0:/home/worker
+    restart: unless-stopped
+  node-1:
+    image: server-ssh:0.3
+    container_name: node-1
+    hostname: node-1
+    networks:
+      - clusterzinho
+    volumes:
+      - /home/paulina/Masters/petrobras/clusterzinho/vms/node-1:/home/worker
+    restart: unless-stopped
+  node-2:
+    image: server-ssh:0.3
+    container_name: node-2
+    hostname: node-2
+    networks:
+      - clusterzinho
+    volumes:
+      - /home/paulina/Masters/petrobras/clusterzinho/vms/node-2:/home/worker
+    restart: unless-stopped
+
+networks:
+  clusterzinho:
+    external: true

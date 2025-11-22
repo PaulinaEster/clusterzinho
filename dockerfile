@@ -11,13 +11,27 @@ RUN apt install -y openssh-server && \
     mkdir -p /var/run/sshd
 RUN apt-get install sshpass -y
 
-# Permite login por senha (simples para desenvolvimento)
-RUN sed -i 's/#PasswordAuthentication yes/PasswordAuthentication yes/' /etc/ssh/sshd_config  
-#\    && sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+ENV HOME=/home/worker
+ENV SSH_DIR=$HOME/.ssh
 
-# Conserta erro comum do OpenSSH sobre sessão não interativa
-RUN echo "PermitTTY yes" >> /etc/ssh/sshd_config
-RUN echo "UsePAM yes" >> /etc/ssh/sshd_config
+RUN useradd -m -s /bin/bash worker && echo "worker:1234" | chpasswd 
+
+RUN mkdir -p $SSH_DIR && chmod 700 $SSH_DIR && chown worker:worker $SSH_DIR
+RUN echo "" >> $SSH_DIR/authorized_keys
+
+# copia chave privada e pública
+COPY ./chaves/key $SSH_DIR/
+COPY ./chaves/key.pub $SSH_DIR/key.pub
+
+# define permissões corretas
+RUN chown worker:worker $SSH_DIR/key $SSH_DIR/key.pub && \
+    chmod 600 $SSH_DIR/key && \
+    chmod 644 $SSH_DIR/key.pub
+
+# cria authorized_keys com a chave pública
+RUN cat $SSH_DIR/key.pub >> $SSH_DIR/authorized_keys && \
+    chmod 600 $SSH_DIR/authorized_keys && \
+    chown worker:worker $SSH_DIR/authorized_keys
 
 # copia arquivos para instalar os pacotes
 COPY ./packages .

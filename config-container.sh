@@ -13,30 +13,31 @@ service ssh start
 # CRIA USUARIO COM BASE NO HOSTNAME 
 # DEFINIDO NA EXECUCAO DO CONTAINER
 # 
-echo "Criando usuário $USERNAME para SSH"  >> $LOGFILE
-useradd -m -s /bin/bash $USERNAME && echo "$USERNAME:1234" | chpasswd >> $LOGFILE
-mv /exec.sh /home/$USERNAME/ >> $LOGFILE
-mkdir /home/$USERNAME/.ssh >> $LOGFILE
-chmod 700 /home/$USERNAME/.ssh >> $LOGFILE
-chown -R $USERNAME:$USERNAME /home/$USERNAME/.ssh >> $LOGFILE
+# echo "Criando usuário $USERNAME para SSH"  >> $LOGFILE
+# useradd -m -s /bin/bash $USERNAME && echo "$USERNAME:1234" | chpasswd >> $LOGFILE
+# mv /exec.sh /home/$USERNAME/ >> $LOGFILE
+# mkdir /home/$USERNAME/.ssh >> $LOGFILE
+# chmod 700 /home/$USERNAME/.ssh >> $LOGFILE
+# chown -R $USERNAME:$USERNAME /home/$USERNAME/.ssh >> $LOGFILE
 
 #
 # CONFIGURA SSH
 #
-if [[ "$HOSTNAME" == "mpiuser" ]]; then
-    mv /password.txt /home/$USERNAME/ >> $LOGFILE
-    echo "Configurando SSH" >> $LOGFILE
-    su - $USERNAME >> $LOGFILE
+# if [[ "$HOSTNAME" == "mpiuser" ]]; then
+#     mv /password.txt /home/$USERNAME/ >> $LOGFILE
+#     echo "Configurando SSH" >> $LOGFILE
+#     su - $USERNAME >> $LOGFILE
 
-    echo "Copiando key" >> $LOGFILE
-    ssh-keygen -t ed25519 -N "" -f ~/.ssh/id_ed25519 >> $LOGFILE
-    sshpass -f ./password.txt ssh-copy-id node-0 >> $LOGFILE
-    sshpass -f ./password.txt ssh-copy-id node-1 >> $LOGFILE
-    sshpass -f ./password.txt ssh-copy-id node-2 >> $LOGFILE
+#     echo "Copiando key" >> $LOGFILE
+#     cd /home/$USERNAME/
+#     ssh-keygen -t ed25519 -N "" -f ~/.ssh/id_ed25519 >> $LOGFILE
+#     sshpass -f ./password.txt ssh-copy-id node-0 >> $LOGFILE
+#     sshpass -f ./password.txt ssh-copy-id node-1 >> $LOGFILE
+#     sshpass -f ./password.txt ssh-copy-id node-2 >> $LOGFILE
 
-    eval `ssh-agent`  >> $LOGFILE
-    ssh-add /home/$USERNAME/.ssh/id_ed25519 >> $LOGFILE
-fi
+#     eval `ssh-agent`  >> $LOGFILE
+#     ssh-add /home/$USERNAME/.ssh/id_ed25519 >> $LOGFILE
+# fi
 
 #
 # INSTALA BIBLIOTECAS NECESSARIAS PARA EXECUÇÃO DO CÓDIGO
@@ -45,7 +46,7 @@ echo "Instalando dependencias" >> $LOGFILE
 cat ./packages | xargs apt-get install -y 
 
 #
-# CONFFIGURA SERVIDOR NFS
+# CONFIGURA SERVIDOR NFS
 #
 # if ["$HOSTNAME" = "mpiuser"]; then
 #     apt-get install nfs-kernel-server
@@ -60,6 +61,7 @@ cat ./packages | xargs apt-get install -y
 #     mkdir /home/$USERNAME/cloud
 #     mount -t nfs manager:/home/mpiuser/cloud ~/cloud
 # fi
+
 #
 # CLONA REPOSITORIO PARA TESTES 
 #

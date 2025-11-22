@@ -10,11 +10,11 @@ docker build -t server-ssh .
 
 ### criar os nodos
 ```bash
-sudo docker run -d -v /home/paulina/Masters/petrobras/clusterzinho/vms/node-0:/home/worker --name node-0 --hostname node-0 --network clusterzinho server-ssh:0.2
-sudo docker run -d -v /home/paulina/Masters/petrobras/clusterzinho/vms/node-1:/home/worker --name node-1 --hostname node-1 --network clusterzinho server-ssh:0.1
-sudo docker run -d -v /home/paulina/Masters/petrobras/clusterzinho/vms/node-2:/home/worker --name node-2 --hostname node-2 --network clusterzinho server-ssh:0.1
+sudo docker run -d -v /home/paulina/Masters/petrobras/clusterzinho/vms/node-0:/home/worker --name node-0 --hostname node-0 --network clusterzinho server-ssh
+sudo docker run -d -v /home/paulina/Masters/petrobras/clusterzinho/vms/node-1:/home/worker --name node-1 --hostname node-1 --network clusterzinho server-ssh
+sudo docker run -d -v /home/paulina/Masters/petrobras/clusterzinho/vms/node-2:/home/worker --name node-2 --hostname node-2 --network clusterzinho server-ssh
 
-sudo docker run -d -v /home/paulina/Masters/petrobras/clusterzinho/vms/mpiuser:/home/worker --name mpiuser --hostname mpiuser --network clusterzinho server-ssh:0.2
+sudo docker run -d -v /home/paulina/Masters/petrobras/clusterzinho/vms/mpiuser:/home/worker --name mpiuser --hostname mpiuser --network clusterzinho server-ssh
 ```
 
 ### acessar container:
