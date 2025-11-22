@@ -9,10 +9,11 @@ ENV DEBIAN_FRONTEND=noninteractive
 # instala SSH
 RUN apt install -y openssh-server && \ 
     mkdir -p /var/run/sshd
+RUN apt-get install sshpass -y
 
 # Permite login por senha (simples para desenvolvimento)
-RUN sed -i 's/#PasswordAuthentication yes/PasswordAuthentication yes/' /etc/ssh/sshd_config  \
-    && sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+RUN sed -i 's/#PasswordAuthentication yes/PasswordAuthentication yes/' /etc/ssh/sshd_config  
+#\    && sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
 
 # Conserta erro comum do OpenSSH sobre sessão não interativa
 RUN echo "PermitTTY yes" >> /etc/ssh/sshd_config
@@ -20,13 +21,14 @@ RUN echo "UsePAM yes" >> /etc/ssh/sshd_config
 
 # copia arquivos para instalar os pacotes
 COPY ./packages .
-COPY ./setup-container.sh  .
+COPY ./config-container.sh  .
+COPY ./password.txt  .
 COPY ./exec.sh  .
 
-RUN chmod +x ./setup-container.sh
+RUN chmod +x ./config-container.sh
 
 # Expõe a porta interna 
 EXPOSE 22
 
 # Inicia o SSH e mantém o container ativo
-CMD ["./setup-container.sh"]
+CMD ["./config-container.sh"]
