@@ -13,12 +13,17 @@ service ssh start
 # CRIA USUARIO COM BASE NO HOSTNAME 
 # DEFINIDO NA EXECUCAO DO CONTAINER
 # 
-# echo "Criando usuário $USERNAME para SSH"  >> $LOGFILE
-# useradd -m -s /bin/bash $USERNAME && echo "$USERNAME:1234" | chpasswd >> $LOGFILE
-# mv /exec.sh /home/$USERNAME/ >> $LOGFILE
-# mkdir /home/$USERNAME/.ssh >> $LOGFILE
-# chmod 700 /home/$USERNAME/.ssh >> $LOGFILE
-# chown -R $USERNAME:$USERNAME /home/$USERNAME/.ssh >> $LOGFILE
+mv /password.txt /home/$USERNAME/ >> $LOGFILE
+echo "Criando usuário $USERNAME para SSH"  >> $LOGFILE
+useradd -m -s /bin/bash $USERNAME && echo "$USERNAME:1234" | chpasswd >> $LOGFILE
+mv /exec.sh /home/$USERNAME/ >> $LOGFILE
+mkdir /home/$USERNAME/.ssh >> $LOGFILE
+chmod 700 /home/$USERNAME/.ssh >> $LOGFILE
+chown -R $USERNAME:$USERNAME /home/$USERNAME/.ssh >> $LOGFILE
+echo "" >> $SSH_DIR/authorized_keys
+chmod 600 $SSH_DIR/authorized_keys && chown worker:worker $SSH_DIR/authorized_keys
+chmod 700 /home/$USERNAME >> $LOGFILE
+chown -R $USERNAME:$USERNAME /home/$USERNAME >> $LOGFILE
 
 #
 # CONFIGURA SSH
@@ -26,17 +31,18 @@ service ssh start
 # if [[ "$HOSTNAME" == "mpiuser" ]]; then
 #     mv /password.txt /home/$USERNAME/ >> $LOGFILE
 #     echo "Configurando SSH" >> $LOGFILE
-#     su - $USERNAME >> $LOGFILE
+#     # su - $USERNAME >> $LOGFILE
 
-#     echo "Copiando key" >> $LOGFILE
-#     cd /home/$USERNAME/
-#     ssh-keygen -t ed25519 -N "" -f ~/.ssh/id_ed25519 >> $LOGFILE
-#     sshpass -f ./password.txt ssh-copy-id node-0 >> $LOGFILE
-#     sshpass -f ./password.txt ssh-copy-id node-1 >> $LOGFILE
-#     sshpass -f ./password.txt ssh-copy-id node-2 >> $LOGFILE
+#     # echo "Copiando key" >> $LOGFILE
+#     # cd /home/$USERNAME/
+#     # ssh-keygen -t ed25519 -N "" -f ~/.ssh/id_ed25519 >> $LOGFILE
+#     # sshpass -f ./password.txt ssh-copy-id node-0 >> $LOGFILE
+#     # sshpass -f ./password.txt ssh-copy-id node-1 >> $LOGFILE
+#     # sshpass -f ./password.txt ssh-copy-id node-2 >> $LOGFILE
 
-#     eval `ssh-agent`  >> $LOGFILE
-#     ssh-add /home/$USERNAME/.ssh/id_ed25519 >> $LOGFILE
+#     # eval `ssh-agent`  >> $LOGFILE
+#     # ssh-add /home/$USERNAME/.ssh/id_ed25519 >> $LOGFILE
+
 # fi
 
 #

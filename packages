@@ -1,4 +1,5 @@
 build-essential
+nano
 cmake
 ninja-build
 llvm

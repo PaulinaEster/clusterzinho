@@ -1,6 +1,6 @@
 services:
   mpiuser:
-    image: server-ssh:0.3
+    image: server-ssh
     container_name: mpiuser
     hostname: mpiuser
     networks:
@@ -12,8 +12,9 @@ services:
       - node-0
       - node-1
       - node-2
+    privileged: true
   node-0:
-    image: server-ssh:0.3
+    image: server-ssh
     container_name: node-0
     hostname: node-0
     networks:
@@ -21,8 +22,9 @@ services:
     volumes:
       - /home/paulina/Masters/petrobras/clusterzinho/vms/node-0:/home/worker
     restart: unless-stopped
+    privileged: true
   node-1:
-    image: server-ssh:0.3
+    image: server-ssh
     container_name: node-1
     hostname: node-1
     networks:
@@ -30,8 +32,9 @@ services:
     volumes:
       - /home/paulina/Masters/petrobras/clusterzinho/vms/node-1:/home/worker
     restart: unless-stopped
+    privileged: true
   node-2:
-    image: server-ssh:0.3
+    image: server-ssh
     container_name: node-2
     hostname: node-2
     networks:
@@ -39,6 +42,7 @@ services:
     volumes:
       - /home/paulina/Masters/petrobras/clusterzinho/vms/node-2:/home/worker
     restart: unless-stopped
+    privileged: true
 
 networks:
   clusterzinho:

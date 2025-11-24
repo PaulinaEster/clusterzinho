@@ -1,11 +1,15 @@
 #!/bin/bash
-USERNAME=$(hostname)
+USERNAME="worker"
 LOGFILE="/home/$USERNAME/install.log"
 
-echo "Criando hostfile" >> $LOGFILE
-cd /home/$USERNAME/k-means-mpi/mpi
-HOSTFILE="/home/$USERNAME/k-means-mpi/mpi/hostfile"
-
-echo "node-1 node-1" > $HOSTFILE
-echo "node-2 node-2" >> $HOSTFILE
-mpirun -np 6 --allow-run-as-root --hostfile hostfile ./k-means.A.exe > /home/$USERNAME/resultado.log
+echo "Copiando key" >> $LOGFILE
+cd /home/$USERNAME/
+if [ ! -f ~/.ssh/id_ed25519 ]; then
+    ssh-keygen -t ed25519 -N "" -f ~/.ssh/id_ed25519 >> $LOGFILE
+fi
+sshpass -f ./password.txt ssh-copy-id -o StrictHostKeyChecking=no node-0 >> $LOGFILE
+sshpass -f ./password.txt ssh-copy-id -o StrictHostKeyChecking=no node-1 >> $LOGFILE
+sshpass -f ./password.txt ssh-copy-id -o StrictHostKeyChecking=no node-2 >> $LOGFILE
+sshpass -f ./password.txt ssh-copy-id -o StrictHostKeyChecking=no mpiuser >> $LOGFILE 
+eval `ssh-agent`  >> $LOGFILE
+ssh-add /home/$USERNAME/.ssh/id_ed25519 >> $LOGFILE
